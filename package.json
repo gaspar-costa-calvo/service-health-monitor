@@ -20,7 +20,9 @@
   },
   "homepage": "https://github.com/gaspar-costa-calvo/service-health-monitor#readme",
   "dependencies": {
-    "express": "^5.2.1"
+    "@prisma/client": "^7.8.0",
+    "express": "^5.2.1",
+    "prisma": "^7.8.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
