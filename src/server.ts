@@ -1,6 +1,7 @@
+import './config/env';
 import express from 'express';
 import authRoutes from './modules/auth/auth.routes';
-
+ 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
