@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import prisma from '../../config/database';
-import jwt from 'jsonwebtoken';
+import jwt, { SignOptions } from 'jsonwebtoken';
 import { ENV } from '../../config/env';
 
 export const registerUser = async (data: { email: string; password: string }) => {
@@ -31,7 +31,7 @@ export const loginUser = async (data: { email: string; password: string }) => {
   const token = jwt.sign(
     { userId: user.id, email: user.email },
     ENV.JWT_SECRET,
-    { expiresIn: ENV.JWT_EXPIRES_IN }
+    { expiresIn: ENV.JWT_EXPIRES_IN } as SignOptions
   );
 
   return { token, user: { id: user.id, email: user.email } };

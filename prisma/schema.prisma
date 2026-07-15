@@ -20,6 +20,8 @@ model Service {
   name      String
   url       String
   userId    Int
-  user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@index([userId], map: "Service_userId_fkey")
 }
