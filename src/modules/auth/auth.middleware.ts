@@ -1,20 +1,28 @@
-import {Request, Response, NextFunction} from 'express';
-import jwt from 'jsonwebtoken';
-import { ENV } from '../../config/env';
+import { Request, Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
+import { ENV } from "../../config/env";
+import { AppError } from "../../utils/AppError";
 
-export const authenticate = (req: Request, res: Response, next: NextFunction) => {
-    const authHeader = req.headers.authorization;
-      if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    res.status(401).json({ message: 'Missing or invalid authorization header' });
+export const authenticate = (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    next(new AppError("Missing or invalid authorization header", 401));
     return;
   }
 
-  const token = authHeader.split(' ')[1];
+  const token = authHeader.split(" ")[1];
   try {
-    const decoded = jwt.verify(token, ENV.JWT_SECRET) as { userId: number; email: string };
+    const decoded = jwt.verify(token, ENV.JWT_SECRET) as {
+      userId: number;
+      email: string;
+    };
     req.user = decoded;
     next();
   } catch {
-    res.status(401).json({ message: 'Invalid or expired token' });
-  } 
+    next(new AppError("Invalid or expired token", 401));
+  }
 };
